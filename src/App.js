@@ -1,15 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {Route, Switch, useLocation} from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
+import React, {useEffect} from 'react';
+import LandingPage from './pages/LandingPage';
+import PreferencesPage from './pages/PreferencesPage';
 
 function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0,0);
+  }, [location]);
+
   return (
     <div className="App">
       <Navbar/>
-      <BrowserRouter>
-        <Route/>
-      </BrowserRouter>
+      <Switch>
+        <Route path={'/'} exact >
+          <LandingPage />
+        </Route>
+        <Route path={'/preferences'}>
+          <PreferencesPage />
+        </Route>
+      </Switch>
     </div>
   );
 }
