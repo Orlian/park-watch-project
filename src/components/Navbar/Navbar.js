@@ -5,7 +5,10 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 const Navbar = () => {
   return (
-      <AppBar color='primary' sx={{position: 'sticky'}}>
+      <AppBar color='primary' sx={{
+          position: 'sticky',
+          width: '100%'
+      }}>
         <Toolbar>
           <Container disableGutters={true} sx={{display: 'flex', justifyContent: 'space-between'}}>
           <Link to={'/'}>Home</Link>
