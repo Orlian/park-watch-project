@@ -6,7 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 const Navbar = () => {
   return (
       <AppBar color='primary' sx={{
-          width: '100%',
+          width: '100vw',
           position: 'static'
       }}>
         <Toolbar>
