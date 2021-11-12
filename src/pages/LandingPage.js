@@ -45,6 +45,7 @@ const LandingPage = () => {
         ID24: false,
         ID25: false,
         ID26: false,
+        ID27: false
 
     }
 
@@ -53,205 +54,13 @@ const LandingPage = () => {
     const [showShit, setShowShit] = useState(false)
     const [data, setData] = useState();
 
+    // set this variable true/false depending if you want to use fetch and real data.
+    const loadData = false
+
     useEffect(() => {
-        // Initial load show prompt about rules for parking lot
-        // Save into clients local storage if they have accessed the site before
 
 
-        // const data = {
-        //     "error": false,
-        //     "response": {
-        //         "header": {"camera_id": 2, "count": 7, "duration": "1636612381.60"},
-        //         "body": {
-        //             "1": {
-        //                 "id": "1",
-        //                 "status": "0",
-        //                 "changed_at": "2021-11-10 12:41:40",
-        //                 "x": "0.417188",
-        //                 "y": "0.417188"
-        //             },
-        //             "2": {
-        //                 "id": "2",
-        //                 "status": "0",
-        //                 "changed_at": "2021-11-10 10:21:00",
-        //                 "x": "0.635938",
-        //                 "y": "0.635938"
-        //             },
-        //             "3": {
-        //                 "id": "3",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:00",
-        //                 "x": "0.542188",
-        //                 "y": "0.542188"
-        //             },
-        //             "4": {
-        //                 "id": "4",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:00",
-        //                 "x": "0.398438",
-        //                 "y": "0.398438"
-        //             },
-        //             "5": {
-        //                 "id": "5",
-        //                 "status": "0",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.426562",
-        //                 "y": "0.426562"
-        //             },
-        //             "6": {
-        //                 "id": "6",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.467187",
-        //                 "y": "0.467187"
-        //             },
-        //             "7": {
-        //                 "id": "7",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "8": {
-        //                 "id": "8",
-        //                 "status": "0",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "9": {
-        //                 "id": "9",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "10": {
-        //                 "id": "10",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "11": {
-        //                 "id": "11",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "12": {
-        //                 "id": "12",
-        //                 "status": "0",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "13": {
-        //                 "id": "13",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "14": {
-        //                 "id": "14",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "15": {
-        //                 "id": "15",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "16": {
-        //                 "id": "16",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "17": {
-        //                 "id": "17",
-        //                 "status": "0",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "18": {
-        //                 "id": "18",
-        //                 "status": "0",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "19": {
-        //                 "id": "19",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "20": {
-        //                 "id": "20",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "21": {
-        //                 "id": "21",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "22": {
-        //                 "id": "22",
-        //                 "status": "0",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "23": {
-        //                 "id": "23",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "24": {
-        //                 "id": "24",
-        //                 "status": "0",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "25": {
-        //                 "id": "25",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //             "26": {
-        //                 "id": "26",
-        //                 "status": "1",
-        //                 "changed_at": "2021-11-10 10:21:01",
-        //                 "x": "0.5375",
-        //                 "y": "0.5375"
-        //             },
-        //
-        //         }
-        //     }
-        // }
-
-        asyncFetch();
-
+        if (loadData) asyncFetch();
 
 
         if (localStorage.getItem('visitedBefore')) {
@@ -265,23 +74,35 @@ const LandingPage = () => {
 
     const asyncFetch = async () => {
 
+        console.log('fetsch 0')
 
-        const response =  await fetch('http://192.168.12.111/api/ppd/get_places_by_camera.php?id=1&output=json');
+        // const response =  await fetch('https://ene3pg89bizcp0i.m.pipedream.net');
+        const response = await fetch('http://192.168.12.111/api/ppd/get_places_by_camera.php?id=1&output=json');
 
         const data = await response.json();
+
+        // const resultData = data.message.results[1][0];
+
+
         const obj = Object?.values(data?.response?.body);
+        console.log('fetsch 3')
+
         const newObj = {}
         let count = 0;
+        console.log('fetsch 4')
+
 
         obj.map(x => {
                 newObj[`ID${x.id}`] = parseInt(x.status) ? true : false;
                 count++;
             }
         )
+        console.log('fetsch 5')
 
-        if(count !== 25){
+
         setParkingState(newObj);
-        }else return false;
+
+
         console.log('Fetched data', new Date())
 
     }
@@ -341,15 +162,15 @@ const LandingPage = () => {
     };
 
     useEffect(() => {
-        const timerInterval = setInterval(async ()=>{
-            asyncFetch();
-            console.log('kissa')
-        },500);
+        if (loadData) {
 
-        return () => clearInterval(timerInterval)
+            const timerInterval = setInterval(async () => {
+                asyncFetch();
+            }, 5000);
 
-    },[])
-
+            return () => clearInterval(timerInterval)
+        }
+    }, [])
 
 
     return (
