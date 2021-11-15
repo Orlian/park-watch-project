@@ -53,9 +53,18 @@ const LandingPage = () => {
     const [open, setOpen] = useState(false)
     const [showShit, setShowShit] = useState(false)
     const [data, setData] = useState();
-
+    /*
+   I
+   I
+   I
+   I
+   i
+   I
+   I
+     */
     // set this variable true/false depending if you want to use fetch and real data.
-    const loadData = false
+    const loadData = true
+    const local = false
 
     useEffect(() => {
 
@@ -74,22 +83,27 @@ const LandingPage = () => {
 
     const asyncFetch = async () => {
 
-        console.log('fetsch 0')
+        let data = {};
 
-        // const response =  await fetch('https://ene3pg89bizcp0i.m.pipedream.net');
-        const response = await fetch('http://192.168.12.111/api/ppd/get_places_by_camera.php?id=1&output=json');
+        if(local) {
+            const response = await fetch('http://192.168.12.111/api/ppd/get_places_by_camera.php?id=1&output=json');
+             data = await response.json();
 
-        const data = await response.json();
+        }else {
+            const response =  await fetch('/data/jsondata.json');
+            const responseData = await response.json();
 
-        // const resultData = data.message.results[1][0];
+            data = responseData.response
 
 
-        const obj = Object?.values(data?.response?.body);
-        console.log('fetsch 3')
+        }
+;
+        const obj = Object.values(data?.body);
+
+
 
         const newObj = {}
         let count = 0;
-        console.log('fetsch 4')
 
 
         obj.map(x => {
@@ -97,7 +111,6 @@ const LandingPage = () => {
                 count++;
             }
         )
-        console.log('fetsch 5')
 
 
         setParkingState(newObj);
@@ -106,6 +119,8 @@ const LandingPage = () => {
         console.log('Fetched data', new Date())
 
     }
+
+
 
 
     // useEffect(() => {
