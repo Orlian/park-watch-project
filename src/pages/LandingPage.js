@@ -14,6 +14,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import SvgParkMap from "../components/SvgParkMap/SvgParkMap";
 import Clock from 'react-digital-clock';
 
+
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
@@ -49,10 +50,21 @@ const LandingPage = () => {
 
     }
 
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80vw',
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
     const [parkingState, setParkingState] = useState(defaultState)
     const [open, setOpen] = useState(false)
-    const [showShit, setShowShit] = useState(false)
-    const [data, setData] = useState();
+    const [totalCount, setTotalCount] = useState(0)
     /*
    I
    I
@@ -81,8 +93,9 @@ const LandingPage = () => {
         }
     }, [])
 
-    const asyncFetch = async () => {
 
+
+    const asyncFetch = async () => {
         let data = {};
 
         if(local) {
@@ -90,25 +103,23 @@ const LandingPage = () => {
              data = await response.json();
 
         }else {
-            const response =  await fetch('/data/jsondata.json');
+            const response = await fetch('/data/jsondata.json');
             const responseData = await response.json();
-
             data = responseData.response
-
-
+            const totalResponse = await fetch('/data/jsonDataTotal.json');
+            const totalResponseData = await totalResponse.json();
+            setTotalCount(totalResponseData.response.free)
         }
-;
+
         const obj = Object.values(data?.body);
 
 
 
         const newObj = {}
-        let count = 0;
 
 
         obj.map(x => {
                 newObj[`ID${x.id}`] = parseInt(x.status) ? true : false;
-                count++;
             }
         )
 
@@ -121,60 +132,11 @@ const LandingPage = () => {
     }
 
 
-
-
-    // useEffect(() => {
-    //     setParkingState({...parkingState,
-    //         ID1: true,
-    //         ID2: true,
-    //         ID3: true,
-    //         ID4: true,
-    //         ID5: true,
-    //         ID6: true,
-    //         ID7: true,
-    //         ID8: true,
-    //         ID9: true,
-    //         ID10:true,
-    //         ID11:true,
-    //         ID12:true,
-    //         ID13:true,
-    //         // ID14: true, principals parking spot: always reserved
-    //         ID15:true,
-    //         ID16:true,
-    //         ID17:true,
-    //         ID18:true,
-    //         ID19:false,
-    //         ID20:true,
-    //         ID21:true,
-    //         ID22:true,
-    //         ID23:true,
-    //         ID24:true,
-    //         ID25:true,
-    //         ID26:false
-    //         ,
-    //     })
-    //
-    // },[])
-
-    const switchSpotStatus = (id) => {
-        setParkingState({...parkingState, ID1: !parkingState.ID1})
-    }
-
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
 
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '80vw',
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
+
 
     useEffect(() => {
         if (loadData) {
@@ -220,72 +182,11 @@ const LandingPage = () => {
                 </Box>
             </Modal>
             <Container disableGutters={true}>
-                <Typography variant='h1'>Karamalmi</Typography>
+                <Typography variant= 'h4'>{totalCount}</Typography>
                 <Typography variant='h4'>Parkkipaikkatilanne</Typography>
 
                 <Typography variant='h4'>{<Clock hour12={false}/>}</Typography>
 
-                {showShit &&
-                <FormGroup row={true}>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID1: !parkingState.ID1})
-                    }}/>} label="1"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID2: !parkingState.ID2})
-                    }}/>} label="2"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID3: !parkingState.ID3})
-                    }}/>} label="3"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID4: !parkingState.ID4})
-                    }}/>} label="4"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID5: !parkingState.ID5})
-                    }}/>} label="5"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID6: !parkingState.ID6})
-                    }}/>} label="6"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID7: !parkingState.ID7})
-                    }}/>} label="7"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID8: !parkingState.ID8})
-                    }}/>} label="8"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID9: !parkingState.ID9})
-                    }}/>} label="9"/>
-
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID10: !parkingState.ID10})
-                    }}/>} label="10"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID11: !parkingState.ID11})
-                    }}/>} label="11"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID12: !parkingState.ID12})
-                    }}/>} label="12"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID13: !parkingState.ID13})
-                    }}/>} label="13"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID15: !parkingState.ID15})
-                    }}/>} label="15"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID16: !parkingState.ID16})
-                    }}/>} label="16"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID17: !parkingState.ID17})
-                    }}/>} label="17"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID18: !parkingState.ID18})
-                    }}/>} label="18"/>
-                    <FormControlLabel control={<Switch onChange={() => {
-                        setParkingState({...parkingState, ID19: !parkingState.ID19})
-                    }}/>} label="19"/>
-
-
-                </FormGroup>
-                }
                 <SvgParkMap object={parkingState}/>
 
             </Container>
