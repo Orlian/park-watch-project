@@ -63,8 +63,8 @@ const LandingPage = () => {
 
     const [parkingState, setParkingState] = useState(defaultState)
     const [open, setOpen] = useState(false)
-    const [totalCount, setTotalCount] = useState(0)
-    const [invaCount, setInvaCount] = useState(0)
+    const [totalFreeSpaces, setTotalFreeSpaces] = useState(0)
+    const [freeInvaSpaces, setFreeInvaSpaces] = useState(0)
     /*
    I
    I
@@ -97,8 +97,8 @@ const LandingPage = () => {
     // Check if inva spaces are occupied and show them separately
     useEffect(()=> {
         const list = [parkingState.ID20, parkingState.ID27]
-        const count = list.filter(Boolean).length;
-        setInvaCount(count)
+        const count = list.filter(item => !item).length
+        setFreeInvaSpaces(count)
     },[parkingState.ID27, parkingState.ID20])
 
 
@@ -116,7 +116,7 @@ const LandingPage = () => {
             data = responseData.response
             const totalResponse = await fetch('/data/jsonDataTotal.json');
             const totalResponseData = await totalResponse.json();
-            setTotalCount(totalResponseData.response.free)
+            setTotalFreeSpaces(totalResponseData.response.free)
         }
 
         const obj = Object.values(data?.body);
@@ -193,7 +193,7 @@ const LandingPage = () => {
                 </Box>
             </Modal>
             <Container disableGutters={true}>
-                <Typography variant= 'h4'>vapaita paikkoja: {totalCount-invaCount}({invaCount})</Typography>
+                <Typography variant= 'h4'>vapaita paikkoja: {totalFreeSpaces-freeInvaSpaces}({freeInvaSpaces})</Typography>
                 <Typography variant='h4'>Parkkipaikkatilanne</Typography>
 
                 <Typography variant='h4'>{<Clock hour12={false}/>}</Typography>
