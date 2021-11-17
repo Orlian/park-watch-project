@@ -1,6 +1,5 @@
 import './App.css';
 import {Route, Switch, useLocation} from 'react-router-dom';
-import Navbar from './components/Navbar/Navbar';
 import React, {useEffect} from 'react';
 import LandingPage from './pages/LandingPage';
 import {createTheme, ThemeProvider} from "@mui/material";

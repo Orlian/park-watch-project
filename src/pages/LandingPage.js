@@ -205,7 +205,6 @@ const LandingPage = () => {
           <Typography variant="h4" marginY={2}>{<Clock hour12={false}/>}</Typography>
         <Grid item>
           <SvgParkMap object={parkingState}/>
-
         </Grid>
 
 

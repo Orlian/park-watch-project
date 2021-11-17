@@ -13,8 +13,8 @@ const [screenWidth, setScreenWidth] = useState('100%');
 useEffect(()=> {
     const width = window.innerWidth;
 
-    if( width > 600) {
-        setScreenWidth('80%')
+    if( width > 900) {
+        setScreenWidth('50vw')
     }
 },[])
 
