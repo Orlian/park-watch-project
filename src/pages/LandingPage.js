@@ -13,7 +13,10 @@ import {
 import CheckIcon from '@mui/icons-material/Check';
 import SvgParkMap from "../components/SvgParkMap/SvgParkMap";
 import Clock from 'react-digital-clock';
+import AccessibleIcon from '@mui/icons-material/Accessible';
+import DoneIcon from '@mui/icons-material/Done';
 import logo from './ParkkiPate-logo-retina-header.jpeg';
+
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
@@ -67,13 +70,13 @@ const LandingPage = () => {
     const [freeInvaSpaces, setFreeInvaSpaces] = useState(0)
     const [screenWidth, setScreenWidth] = useState('100%');
 
-    useEffect(()=> {
+    useEffect(() => {
         const width = window.innerWidth;
 
-        if( width > 600) {
+        if (width > 600) {
             setScreenWidth('80%')
         }
-    },[])
+    }, [])
     /*
    I
    I
@@ -104,22 +107,21 @@ const LandingPage = () => {
 
 
     // Check if inva spaces are occupied and show them separately
-    useEffect(()=> {
+    useEffect(() => {
         const list = [parkingState.ID20, parkingState.ID27]
         const count = list.filter(item => !item).length
         setFreeInvaSpaces(count)
-    },[parkingState.ID27, parkingState.ID20])
-
+    }, [parkingState.ID27, parkingState.ID20])
 
 
     const asyncFetch = async () => {
         let data = {};
 
-        if(local) {
+        if (local) {
             const response = await fetch('http://192.168.12.111/api/ppd/get_places_by_camera.php?id=1&output=json');
-             data = await response.json();
+            data = await response.json();
 
-        }else {
+        } else {
             const response = await fetch('/data/jsondata.json');
             const responseData = await response.json();
             data = responseData.response
@@ -129,7 +131,6 @@ const LandingPage = () => {
         }
 
         const obj = Object.values(data?.body);
-
 
 
         const newObj = {}
@@ -151,8 +152,6 @@ const LandingPage = () => {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-
 
 
     useEffect(() => {
@@ -189,7 +188,7 @@ const LandingPage = () => {
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <img src={logo} width={'50%'} />
+                            <img src={logo} width={'50%'}/>
                         </Grid>
                         <Grid item>
                             <Button variant="outlined" startIcon={<CheckIcon/>} onClick={handleClose}>
@@ -201,25 +200,38 @@ const LandingPage = () => {
 
                 </Box>
             </Modal>
-            <Grid container direction={"column"} >
-                <Grid item>
-                    <Paper>
-                        <Typography variant= 'h4'>vapaita paikkoja: {totalFreeSpaces-freeInvaSpaces}({freeInvaSpaces})</Typography>
-                        <Typography variant='h4'>Parkkipaikkatilanne</Typography>
 
-                        <Typography variant='h4'>{<Clock hour12={false}/>}</Typography>
-                    </Paper>
+            <Paper>
+                <Grid container direction={"row"} justifyContent={"center"}>
+                    <Grid container direction="row" alignItems="center">
+                        <Grid item>
+                            <AccessibleIcon style={{color: '74BCFF', fontSize: '5rem'}}/>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant={"h3"}>{freeInvaSpaces}</Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid container direction="row" alignItems="center">
+                        <Grid item>
+                            <DoneIcon style={{color: 'green', fontSize: '5rem'}}/>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant={"h3"}>{totalFreeSpaces}</Typography>
+
+                        </Grid>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <SvgParkMap object={parkingState}/>
 
-                </Grid>
+                <Typography variant='h4'>{<Clock hour12={false}/>}</Typography>
+            </Paper>
+    <Grid item>
+        <SvgParkMap object={parkingState}/>
+
+    </Grid>
 
 
-
-            </Grid>
-        </ThemeProvider>
-    )
+</ThemeProvider>
+)
 }
 
 export default LandingPage;
