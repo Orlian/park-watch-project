@@ -29,7 +29,6 @@ function App() {
   return (
       <ThemeProvider theme={theme}>
         <div className="App">
-          <Navbar/>
           <Switch>
             <Route path={'/'} exact >
               <LandingPage />
