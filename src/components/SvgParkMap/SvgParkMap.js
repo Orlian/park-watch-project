@@ -1,6 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react'
-import {ReactComponent as ParkMap} from './ParkingLotMetropolia.svg';
-import {Grid} from "@mui/material";
+import React, {useEffect, useState} from 'react'
+
 
 // import './parkingLotStyles.css'
 

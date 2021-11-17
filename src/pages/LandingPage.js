@@ -1,20 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Box, Button,
+    Box,
+    Button,
     Container,
     createTheme,
-    FormControlLabel,
-    FormGroup,
-    Grid, Modal,
+    Grid,
+    Modal,
     responsiveFontSizes,
-    Switch, ThemeProvider,
+    ThemeProvider,
     Typography
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import SvgParkMap from "../components/SvgParkMap/SvgParkMap";
 import Clock from 'react-digital-clock';
-
-
+import logo from './ParkkiPate-logo-retina-header.jpeg';
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
@@ -64,7 +63,8 @@ const LandingPage = () => {
 
     const [parkingState, setParkingState] = useState(defaultState)
     const [open, setOpen] = useState(false)
-    const [totalCount, setTotalCount] = useState(0)
+    const [totalFreeSpaces, setTotalFreeSpaces] = useState(0)
+    const [freeInvaSpaces, setFreeInvaSpaces] = useState(0)
     /*
    I
    I
@@ -94,6 +94,14 @@ const LandingPage = () => {
     }, [])
 
 
+    // Check if inva spaces are occupied and show them separately
+    useEffect(()=> {
+        const list = [parkingState.ID20, parkingState.ID27]
+        const count = list.filter(item => !item).length
+        setFreeInvaSpaces(count)
+    },[parkingState.ID27, parkingState.ID20])
+
+
 
     const asyncFetch = async () => {
         let data = {};
@@ -108,7 +116,7 @@ const LandingPage = () => {
             data = responseData.response
             const totalResponse = await fetch('/data/jsonDataTotal.json');
             const totalResponseData = await totalResponse.json();
-            setTotalCount(totalResponseData.response.free)
+            setTotalFreeSpaces(totalResponseData.response.free)
         }
 
         const obj = Object.values(data?.body);
@@ -159,30 +167,33 @@ const LandingPage = () => {
             >
                 <Box sx={style}>
 
-                    <Grid container>
+                    <Grid container direction={"column"}>
                         <Grid item style={{paddingBottom: '1rem'}}>
-                            <Switch label='language'/>
                             <Typography id="modal-modal-title" variant="h6" component="h2">
                                 Metropolia Karamalmi Parkinglot
                             </Typography>
                             <Typography id="modal-modal-description" sx={{mt: 2}}>
-                                This parkinglot is for teachers only!!!! ParkkiPate Oy is monitoring and ticketing cars
-                                that have no authorization document on windshield.
+                                {/*This parkinglot is for teachers only!!!! ParkkiPate Oy is monitoring and ticketing cars*/}
+                                {/*that have no authorization document on windshield.*/}
                                 Parkkipaikka on vain koulun opettajille!!!! ParkkiPate Oy valvoo parkkipaikkaa ja
                                 sakottaa autoja joilla ei ole lupalappua.
                             </Typography>
+                        </Grid>
+                        <Grid item>
+                            <img src={logo} width={'50%'} />
                         </Grid>
                         <Grid item>
                             <Button variant="outlined" startIcon={<CheckIcon/>} onClick={handleClose}>
                                 OK
                             </Button>
                         </Grid>
+
                     </Grid>
 
                 </Box>
             </Modal>
             <Container disableGutters={true}>
-                <Typography variant= 'h4'>{totalCount}</Typography>
+                <Typography variant= 'h4'>vapaita paikkoja: {totalFreeSpaces-freeInvaSpaces}({freeInvaSpaces})</Typography>
                 <Typography variant='h4'>Parkkipaikkatilanne</Typography>
 
                 <Typography variant='h4'>{<Clock hour12={false}/>}</Typography>
