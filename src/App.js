@@ -4,26 +4,43 @@ import Navbar from './components/Navbar/Navbar';
 import React, {useEffect} from 'react';
 import LandingPage from './pages/LandingPage';
 import PreferencesPage from './pages/PreferencesPage';
+import {createTheme, ThemeProvider} from "@mui/material";
 
 function App() {
   const location = useLocation();
+
+  const theme = createTheme({
+    palette: {
+      secondary: {
+        main: '#b5ffa5'
+      },
+      primary: {
+        main: '#9ce8ff'
+      },
+      a : {
+        main: '#ff0000'
+      }
+    }
+  });
 
   useEffect(() => {
     window.scrollTo(0,0);
   }, [location]);
 
   return (
-    <div className="App">
-      <Navbar/>
-      <Switch>
-        <Route path={'/'} exact >
-          <LandingPage />
-        </Route>
-        <Route path={'/preferences'}>
-          <PreferencesPage />
-        </Route>
-      </Switch>
-    </div>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Navbar/>
+          <Switch>
+            <Route path={'/'} exact >
+              <LandingPage />
+            </Route>
+            <Route path={'/preferences'}>
+              <PreferencesPage />
+            </Route>
+          </Switch>
+        </div>
+      </ThemeProvider>
   );
 }
 
