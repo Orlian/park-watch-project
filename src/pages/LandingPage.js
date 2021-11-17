@@ -5,7 +5,7 @@ import {
     Container,
     createTheme,
     Grid,
-    Modal,
+    Modal, Paper,
     responsiveFontSizes,
     ThemeProvider,
     Typography
@@ -65,6 +65,15 @@ const LandingPage = () => {
     const [open, setOpen] = useState(false)
     const [totalFreeSpaces, setTotalFreeSpaces] = useState(0)
     const [freeInvaSpaces, setFreeInvaSpaces] = useState(0)
+    const [screenWidth, setScreenWidth] = useState('100%');
+
+    useEffect(()=> {
+        const width = window.innerWidth;
+
+        if( width > 600) {
+            setScreenWidth('80%')
+        }
+    },[])
     /*
    I
    I
@@ -192,15 +201,23 @@ const LandingPage = () => {
 
                 </Box>
             </Modal>
-            <Container disableGutters={true}>
-                <Typography variant= 'h4'>vapaita paikkoja: {totalFreeSpaces-freeInvaSpaces}({freeInvaSpaces})</Typography>
-                <Typography variant='h4'>Parkkipaikkatilanne</Typography>
+            <Grid container direction={"column"} >
+                <Grid item>
+                    <Paper>
+                        <Typography variant= 'h4'>vapaita paikkoja: {totalFreeSpaces-freeInvaSpaces}({freeInvaSpaces})</Typography>
+                        <Typography variant='h4'>Parkkipaikkatilanne</Typography>
 
-                <Typography variant='h4'>{<Clock hour12={false}/>}</Typography>
+                        <Typography variant='h4'>{<Clock hour12={false}/>}</Typography>
+                    </Paper>
+                </Grid>
+                <Grid item>
+                    <SvgParkMap object={parkingState}/>
 
-                <SvgParkMap object={parkingState}/>
+                </Grid>
 
-            </Container>
+
+
+            </Grid>
         </ThemeProvider>
     )
 }
