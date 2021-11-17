@@ -64,19 +64,11 @@ const LandingPage = () => {
     p: 4,
   };
 
+  //const [subtitles, setSubtitles] = useState('Paikkaa');
   const [parkingState, setParkingState] = useState(defaultState);
   const [open, setOpen] = useState(false);
   const [totalFreeSpaces, setTotalFreeSpaces] = useState(0);
   const [freeInvaSpaces, setFreeInvaSpaces] = useState(0);
-  const [screenWidth, setScreenWidth] = useState('100%');
-
-  useEffect(() => {
-    const width = window.innerWidth;
-
-    if (width > 600) {
-      setScreenWidth('80%');
-    }
-  }, []);
   /*
  I
  I
@@ -192,17 +184,23 @@ const LandingPage = () => {
 
           </Box>
         </Modal>
-        <Stack direction={'row'} justifyContent={'center'} spacing={7} marginY={3}>
+        <Stack direction={'row'} justifyContent={'center'} spacing={7}
+               margin={'3rem 0 0.5rem 0'}>
           <Box display={'flex'} alignItems={'center'}>
             <LocalParkingIcon style={{color: 'green', fontSize: '5rem'}}/>
-            <Typography variant={'h3'}>{totalFreeSpaces}</Typography>
+            <Typography variant={'h3'}>{totalFreeSpaces -
+            freeInvaSpaces}</Typography>
           </Box>
           <Box display={'flex'} alignItems={'center'}>
             <AccessibleIcon style={{color: '#74BCFF', fontSize: '5rem'}}/>
             <Typography variant={'h3'}>{freeInvaSpaces}</Typography>
           </Box>
         </Stack>
-          <Typography variant="h4" marginY={2}>{<Clock hour12={false}/>}</Typography>
+        <Box>
+          <Typography variant={'h5'}>Vapaita paikkoja</Typography>
+        </Box>
+        <Typography variant="h4" marginY={2}>{<Clock
+            hour12={false}/>}</Typography>
         <Grid item>
           <SvgParkMap object={parkingState}/>
         </Grid>
