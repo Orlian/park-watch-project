@@ -71,9 +71,6 @@ const ParkMap = () => {
         }
     }
 
-    const parseJson = (json) => {
-
-    }
 
 
     return (
