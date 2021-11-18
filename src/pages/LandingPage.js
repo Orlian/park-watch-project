@@ -63,13 +63,16 @@ const LandingPage = () => {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
+    borderRadius: '0.5rem',
     p: 4,
   };
 
   const [parkingState, setParkingState] = useState(defaultState);
   const [open, setOpen] = useState(false);
   const [totalFreeSpaces, setTotalFreeSpaces] = useState(0);
+  const [freeSpacesText, setFreeSpacesText] = useState({});
   const [freeInvaSpaces, setFreeInvaSpaces] = useState(0);
+  const [invaSpacesText, setInvaSpacesText] = useState({});
   const [screenWidth, setScreenWidth] = useState('100%');
 
   useEffect(() => {
@@ -111,6 +114,14 @@ const LandingPage = () => {
     const list = [parkingState.ID20, parkingState.ID27];
     const count = list.filter(item => !item).length;
     setFreeInvaSpaces(count);
+
+    if(count === 2){
+      setInvaSpacesText({text: 'kaksi paikkaa vapaana', style: 'green'});
+    }else if(count === 1){
+      setInvaSpacesText({text: 'yksi paikka vapaana', style: 'yellow'});
+    }else{
+      setInvaSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
+    }
   }, [parkingState.ID27, parkingState.ID20]);
 
   const asyncFetch = async () => {
@@ -128,7 +139,20 @@ const LandingPage = () => {
       data = responseData.response;
       const totalResponse = await fetch('/data/jsonDataTotal.json');
       const totalResponseData = await totalResponse.json();
+      const count = totalResponseData.response.free;
       setTotalFreeSpaces(totalResponseData.response.free);
+
+      if(count >= 5){
+        setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
+      }else if(count < 5 && count >= 3){
+        setFreeSpacesText({text: 'muutamia paikkoja vapaana', style: 'yellow'});
+      }else if(count === 2){
+        setFreeSpacesText({text: 'kaksi paikkaa vapaana', style: 'yellow'});
+      }else if(count === 1){
+        setFreeSpacesText({text: 'yksi paikka vapaana', style: 'yellow'});
+      }else{
+        setFreeSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
+      }
     }
 
     const obj = Object.values(data?.body);
@@ -169,12 +193,16 @@ const LandingPage = () => {
         >
           <Box sx={style}>
 
-            <Grid container direction={'column'}>
+            <Grid container direction={'column'} textAlign={'center'}>
+              <Grid item>
+                <img src={'/alarm.png'} alt={'Picture of a alarm'} width={'50%'}/>
+              </Grid>
               <Grid item style={{paddingBottom: '1rem'}}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
+                {/*<Typography id="modal-modal-title" variant="h6" component="h2" fontWeight={'bold'}>
                   Metropolia Karamalmi Parkinglot
                 </Typography>
-                <Typography id="modal-modal-description" sx={{mt: 2}}>
+                */}
+                <Typography id="modal-modal-description" sx={{mt: 2}} fontWeight={'bold'}>
                   {/*This parkinglot is for teachers only!!!! ParkkiPate Oy is monitoring and ticketing cars*/}
                   {/*that have no authorization document on windshield.*/}
                   Parkkipaikka on vain koulun opettajille!!!! ParkkiPate Oy
@@ -183,12 +211,11 @@ const LandingPage = () => {
                 </Typography>
               </Grid>
               <Grid item>
-                <img src={logo} width={'50%'}/>
+                <img src={logo} alt={'Parkkipate logo'} width={'50%'}/>
               </Grid>
-              <Grid item>
-                <Button variant="outlined" startIcon={<CheckIcon/>}
-                        onClick={handleClose}>
-                  OK
+              <Grid item marginTop={'1rem'}>
+                <Button variant="contained" fullWidth={true} onClick={handleClose}>
+                  Jatka
                 </Button>
               </Grid>
 
@@ -213,14 +240,14 @@ const LandingPage = () => {
           <Grid item xs={12} margin={'1rem 0 0 0'}>
             <Stack direction={'row'} justifyContent={'space-between'} textAlign={'left'} margin={'0 1rem 1rem 1rem'}>
               <Stack direction={'row'} alignItems={'flex-end'} >
-                <LocalParkingIcon sx={{fontSize: '47.875px'}}/>
+                <LocalParkingIcon sx={{fontSize: '47.875px', backgroundColor: '#2962ff', color: 'white', marginRight: '0.5rem'}}/>
                 <Box>
                   <Typography variant="h5" fontWeight={'bold'}>Parkkipaikat</Typography>
-                  <Typography variant="h7">{totalFreeSpaces - freeInvaSpaces < 5 ? "Muutama jäljellä" : "Useita vapaana"}</Typography>
+                  <Typography variant="h7" color={freeSpacesText.style}>{freeSpacesText.text}</Typography>
                 </Box>
               </Stack>
               <Box display={'flex'} alignItems={'flex-end'}>
-                <Typography variant="h2" >{totalFreeSpaces - freeInvaSpaces}</Typography>
+                <Typography variant="h2" color={freeSpacesText.style}>{totalFreeSpaces - freeInvaSpaces}</Typography>
               </Box>
             </Stack>
             <Divider/>
@@ -228,14 +255,14 @@ const LandingPage = () => {
           <Grid item xs={12} margin={'1rem 0'}>
             <Stack direction={'row'} justifyContent={'space-between'} textAlign={'left'} margin={'0 1rem 1rem 1rem'}>
               <Stack direction={'row'} alignItems={'flex-end'}>
-                <AccessibleIcon sx={{fontSize: '47.875px', color: '#74BCFF'}}/>
+                <AccessibleIcon sx={{fontSize: '47.875px', backgroundColor: '#2962ff', color: 'white', marginRight: '0.5rem'}}/>
                 <Box>
                   <Typography variant="h5" fontWeight={'bold'}>Invapaikat</Typography>
-                  <Typography variant="h7">{freeInvaSpaces < 2 ? "Yksi jäljellä" : "Kaksi vapaana"}</Typography>
+                  <Typography variant="h7" color={invaSpacesText.style}>{invaSpacesText.text}</Typography>
                 </Box>
               </Stack>
               <Box display={'flex'} alignItems={'flex-end'}>
-                <Typography variant="h2" >{freeInvaSpaces}</Typography>
+                <Typography variant="h2" color={invaSpacesText.style}>{freeInvaSpaces}</Typography>
               </Box>
             </Stack>
             <Divider/>
