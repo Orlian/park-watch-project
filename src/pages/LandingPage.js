@@ -9,6 +9,7 @@ import {
   responsiveFontSizes, Stack,
   ThemeProvider,
   Typography,
+  Divider,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import SvgParkMap from '../components/SvgParkMap/SvgParkMap';
@@ -16,6 +17,7 @@ import Clock from 'react-digital-clock';
 import AccessibleIcon from '@mui/icons-material/Accessible';
 import logo from './ParkkiPate-logo-retina-header.jpeg';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -96,7 +98,8 @@ const LandingPage = () => {
 
     if (localStorage.getItem('visitedBefore')) {
       return true;
-    } else {
+    }
+    else {
       localStorage.setItem('visitedBefore', true);
       handleOpen();
       return true;
@@ -118,7 +121,8 @@ const LandingPage = () => {
           'http://192.168.12.111/api/ppd/get_places_by_camera.php?id=1&output=json');
       data = await response.json();
 
-    } else {
+    }
+    else {
       const response = await fetch('/data/jsondata.json');
       const responseData = await response.json();
       data = responseData.response;
@@ -192,21 +196,52 @@ const LandingPage = () => {
 
           </Box>
         </Modal>
-        <Stack direction={'row'} justifyContent={'center'} spacing={7} marginY={3}>
-          <Box display={'flex'} alignItems={'center'}>
-            <LocalParkingIcon style={{color: 'green', fontSize: '5rem'}}/>
-            <Typography variant={'h3'}>{totalFreeSpaces}</Typography>
-          </Box>
-          <Box display={'flex'} alignItems={'center'}>
-            <AccessibleIcon style={{color: '#74BCFF', fontSize: '5rem'}}/>
-            <Typography variant={'h3'}>{freeInvaSpaces}</Typography>
-          </Box>
-        </Stack>
-          <Typography variant="h4" marginY={2}>{<Clock hour12={false}/>}</Typography>
         <Grid item>
           <SvgParkMap object={parkingState}/>
         </Grid>
+        <Grid container margin={'1rem 0 2rem 0'} >
+          <Grid item xs={12} margin={'1rem 0 0 0'}>
+            <Stack direction={'row'} justifyContent={'space-between'} alignItems={'self-end'} margin={'0 1rem'}>
+              <Typography variant="h7" >Vapaat paikat ({totalFreeSpaces -
+              freeInvaSpaces})</Typography>
+              <Box display={'flex'} alignItems={'self-end'}>
+                <AccessTimeIcon/>
+                <Typography variant={'h7'}>{<Clock hour12={false}/>}</Typography>
+              </Box>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} margin={'1rem 0 0 0'}>
+            <Stack direction={'row'} justifyContent={'space-between'} textAlign={'left'} margin={'0 1rem 1rem 1rem'}>
+              <Stack direction={'row'} alignItems={'flex-end'} >
+                <LocalParkingIcon sx={{fontSize: '47.875px'}}/>
+                <Box>
+                  <Typography variant="h5" fontWeight={'bold'}>Parkkipaikat</Typography>
+                  <Typography variant="h7">{totalFreeSpaces - freeInvaSpaces < 5 ? "Muutama jäljellä" : "Useita vapaana"}</Typography>
+                </Box>
+              </Stack>
+              <Box display={'flex'} alignItems={'flex-end'}>
+                <Typography variant="h2" >{totalFreeSpaces - freeInvaSpaces}</Typography>
+              </Box>
+            </Stack>
+            <Divider/>
+          </Grid>
+          <Grid item xs={12} margin={'1rem 0'}>
+            <Stack direction={'row'} justifyContent={'space-between'} textAlign={'left'} margin={'0 1rem 1rem 1rem'}>
+              <Stack direction={'row'} alignItems={'flex-end'}>
+                <AccessibleIcon sx={{fontSize: '47.875px', color: '#74BCFF'}}/>
+                <Box>
+                  <Typography variant="h5" fontWeight={'bold'}>Invapaikat</Typography>
+                  <Typography variant="h7">{freeInvaSpaces < 2 ? "Yksi jäljellä" : "Kaksi vapaana"}</Typography>
+                </Box>
+              </Stack>
+              <Box display={'flex'} alignItems={'flex-end'}>
+                <Typography variant="h2" >{freeInvaSpaces}</Typography>
+              </Box>
+            </Stack>
+            <Divider/>
+          </Grid>
 
+        </Grid>
 
       </ThemeProvider>
   );
