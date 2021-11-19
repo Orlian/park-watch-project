@@ -27,6 +27,7 @@ let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
 
+
 const useStyles = makeStyles({
     box: {
         position: 'absolute',
@@ -212,10 +213,6 @@ const LandingPage = () => {
                                  width={'50%'}/>
                         </Grid>
                         <Grid item style={{paddingBottom: '1rem'}}>
-                            {/*<Typography id="modal-modal-title" variant="h6" component="h2" fontWeight={'bold'}>
-                  Metropolia Karamalmi Parkinglot
-                </Typography>
-                */}
                             <Typography id="modal-modal-description" sx={{mt: 2}}
                                         fontWeight={'bold'}>
 
