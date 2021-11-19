@@ -2,19 +2,36 @@ import React, {useEffect, useState} from 'react'
 
 
 // import './parkingLotStyles.css'
+import { makeStyles } from '@mui/styles';
+import {CardContent} from "@mui/material";
 
+const useStyles = makeStyles({
+    svg: {
+        '&:last-child': {
+            paddingBottom: "0 !important",
+        },
 
+    },
+    cardContent: {
+        padding: 0,
+        '&:last-child': {
+            paddingBottom: "0 !important",
+        },
+        backgroundColor: '#BCBCBC'
+    }
+});
 const SvgParkMap = ({object}) => {
+    const classes = useStyles();
+
 
 
 
 
     return(
-        <>
+        <CardContent className={classes.cardContent}>
 
 
-
-            <svg width="100%" height="auto" viewBox="0 0 1629 1450" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className={classes.svg} width="100%" height="auto" viewBox="0 0 1629 1450" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="Group 2">
                     <path id="Rectangle 1" d="M4 0H814.5H1625V1450H4V0Z" fill="#BCBCBC"/>
                     <g id="Frame 1">
@@ -100,7 +117,7 @@ const SvgParkMap = ({object}) => {
 
 
 
-        </>
+        </CardContent>
     )
 }
 
