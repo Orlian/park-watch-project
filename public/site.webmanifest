@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Parking app for Karaportti",
+    "short_name": "ParkPat",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
