@@ -34,7 +34,7 @@ const useStyles = makeStyles({
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: '80vw',
-        bgcolor: 'background.paper',
+        backgroundColor: 'white',
         border: '2px solid #000',
         boxShadow: 24,
         borderRadius: '0.5rem',
