@@ -41,7 +41,8 @@ const useStyles = makeStyles({
         p: 4,
     },
     card: {
-        borderRadius: '0 0 50px 50px',
+        borderRadius: '0 0 50px 50px !important',
+        overflow: 'hidden',
 
     }
 
@@ -151,7 +152,7 @@ const LandingPage = () => {
             data = responseData.response;
             const totalResponse = await fetch('/data/jsonDataTotal.json');
             const totalResponseData = await totalResponse.json();
-            const count = totalResponseData.response.free;
+            const count = totalResponseData.response.free - freeInvaSpaces;
             setTotalFreeSpaces(totalResponseData.response.free);
 
             if (count >= 5) {
@@ -244,8 +245,7 @@ const LandingPage = () => {
                 <Grid item xs={12} margin={'1rem 0 0 0'}>
                     <Stack direction={'row'} justifyContent={'space-between'}
                            alignItems={'self-end'} margin={'0 1rem'}>
-                        <Typography variant="h7">Vapaat paikat ({totalFreeSpaces -
-                        freeInvaSpaces})</Typography>
+                        <Typography variant="h7">Vapaat paikat ({totalFreeSpaces})</Typography>
                         <Box display={'flex'} alignItems={'self-end'}>
                             <AccessTimeIcon/>
                             <Typography variant={'h7'}>{<Clock
