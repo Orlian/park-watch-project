@@ -8,22 +8,10 @@ const SvgParkMap = ({object}) => {
 
 
 
-const [screenWidth, setScreenWidth] = useState('100%');
-
-useEffect(()=> {
-    const width = window.innerWidth;
-
-    if( width > 900) {
-        setScreenWidth('50vw')
-    }
-},[])
-
-
-
 
     return(
         <>
-            <svg width={screenWidth} height="auto" viewBox="0 0 1651 1450" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width='100%' height="auto" viewBox="0 0 1651 1450" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="Group 1">
                     <path id="Rectangle 1" d="M15 0H825.5H1636V1450H15V0Z" fill="#BCBCBC"/>
                     <g id="Frame 1">
