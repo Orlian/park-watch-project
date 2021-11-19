@@ -233,9 +233,7 @@ const LandingPage = () => {
 
           </Box>
         </Modal>
-        <Paper square={true}>
           <SvgParkMap object={parkingState}/>
-        </Paper>
         <Grid container margin={'1rem 0 2rem 0'}>
           <Grid item xs={12} margin={'1rem 0 0 0'}>
             <Stack direction={'row'} justifyContent={'space-between'}
