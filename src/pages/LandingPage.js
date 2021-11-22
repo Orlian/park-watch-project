@@ -16,6 +16,7 @@ import {
 import {makeStyles} from '@mui/styles';
 
 import CheckIcon from '@mui/icons-material/Check';
+import CircleIcon from '@mui/icons-material/Circle';
 import SvgParkMap from '../components/SvgParkMap/SvgParkMap';
 import Clock from 'react-digital-clock';
 import AccessibleIcon from '@mui/icons-material/Accessible';
@@ -25,7 +26,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
-
 
 
 const useStyles = makeStyles({
@@ -90,6 +90,7 @@ const LandingPage = () => {
     const [freeInvaSpaces, setFreeInvaSpaces] = useState(0);
     const [invaSpacesText, setInvaSpacesText] = useState({});
     const [screenWidth, setScreenWidth] = useState('100%');
+    const [freeNormalSpace, setFreeNormalSpaces] = useState(0);
 
     useEffect(() => {
         const width = window.innerWidth;
@@ -109,7 +110,6 @@ const LandingPage = () => {
      */
     // set this variable true/false depending if you want to use fetch and real data.
     const loadData = true;
-    const local = false;
 
     useEffect(() => {
 
@@ -133,41 +133,45 @@ const LandingPage = () => {
         if (count === 2) {
             setInvaSpacesText({text: 'kaksi paikkaa vapaana', style: 'green'});
         } else if (count === 1) {
-            setInvaSpacesText({text: 'yksi paikka vapaana', style: 'yellow'});
+            setInvaSpacesText({text: 'yksi paikka vapaana', style: '#e7d213'});
         } else {
             setInvaSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
         }
     }, [parkingState.ID27, parkingState.ID20]);
 
+
+    useEffect(() => {
+
+    }, [freeNormalSpace, totalFreeSpaces, freeInvaSpaces])
+
     const asyncFetch = async () => {
         let data = {};
 
-        if (local) {
-            const response = await fetch(
-                'http://192.168.12.111/api/ppd/get_places_by_camera.php?id=1&output=json');
-            data = await response.json();
 
+        const response = await fetch('/data/jsondata.json');
+        const responseData = await response.json();
+        data = responseData.response;
+        const totalResponse = await fetch('/data/jsonDataTotal.json');
+        const totalResponseData = await totalResponse.json();
+        const count = totalResponseData.response.free - freeInvaSpaces;
+        // console.log('count', count)
+
+        setFreeNormalSpaces(count)
+        setTotalFreeSpaces(totalResponseData.response.free);
+
+
+        if (freeNormalSpace >= 5) {
+            setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
+        } else if (freeNormalSpace < 5 && count >= 3) {
+            setFreeSpacesText({text: 'muutamia paikkoja vapaana', style: '#e7d213'});
+        } else if (freeNormalSpace === 2) {
+            setFreeSpacesText({text: 'kaksi paikkaa vapaana', style: '#e7d213'});
+        } else if (freeNormalSpace === 1) {
+            setFreeSpacesText({text: 'yksi paikka vapaana', style: '#e7d213 '});
         } else {
-            const response = await fetch('/data/jsondata.json');
-            const responseData = await response.json();
-            data = responseData.response;
-            const totalResponse = await fetch('/data/jsonDataTotal.json');
-            const totalResponseData = await totalResponse.json();
-            const count = totalResponseData.response.free - freeInvaSpaces;
-            setTotalFreeSpaces(totalResponseData.response.free);
-
-            if (count >= 5) {
-                setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
-            } else if (count < 5 && count >= 3) {
-                setFreeSpacesText({text: 'muutamia paikkoja vapaana', style: '#ebbc12'});
-            } else if (count === 2) {
-                setFreeSpacesText({text: 'kaksi paikkaa vapaana', style: '#ebbc12'});
-            } else if (count === 1) {
-                setFreeSpacesText({text: 'yksi paikka vapaana', style: '#ebbc12'});
-            } else {
-                setFreeSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
-            }
+            setFreeSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
         }
+
 
         const obj = Object.values(data?.body);
 
@@ -180,7 +184,6 @@ const LandingPage = () => {
 
         setParkingState(newObj);
 
-        console.log('Fetched data', new Date());
 
     };
 
@@ -213,7 +216,7 @@ const LandingPage = () => {
                                  width={'50%'}/>
                         </Grid>
                         <Grid item style={{paddingBottom: '1rem'}}>
-                            <Typography id="modal-modal-description" sx={{mt: 2}}
+                            <Typography id="modal-modal-description" sx={{mt: 2, padding: '1rem'}}
                                         fontWeight={'bold'}>
 
                                 Parkkipaikka on vain koulun opettajille!!!! ParkkiPate Oy
@@ -243,7 +246,7 @@ const LandingPage = () => {
                     <Stack direction={'row'} justifyContent={'space-between'}
                            alignItems={'self-end'} margin={'0 1rem'}>
                         <Typography variant="h7">Vapaat paikat ({totalFreeSpaces})</Typography>
-                        <Box display={'flex'} alignItems={'self-end'}>
+                        <Box display={'flex'} alignItems={'self-end'} width={'6rem'}>
                             <AccessTimeIcon/>
                             <Typography variant={'h7'}>{<Clock
                                 hour12={false}/>}</Typography>
@@ -264,9 +267,10 @@ const LandingPage = () => {
                                 <Typography variant="h5"
                                             fontWeight={'bold'}>Parkkipaikat</Typography>
                                 <Typography variant="h7"
-                                            color={freeSpacesText.style}>{freeSpacesText.text}</Typography>
+                                            >{freeSpacesText.text}</Typography>
                             </Box>
                         </Stack>
+
                         <Box display={'flex'} alignItems={'flex-end'}>
                             <Typography variant="h2"
                                         color={freeSpacesText.style}>{totalFreeSpaces -
@@ -289,7 +293,7 @@ const LandingPage = () => {
                                 <Typography variant="h5"
                                             fontWeight={'bold'}>Invapaikat</Typography>
                                 <Typography variant="h7"
-                                            color={invaSpacesText.style}>{invaSpacesText.text}</Typography>
+                                            >{invaSpacesText.text}</Typography>
                             </Box>
                         </Stack>
                         <Box display={'flex'} alignItems={'flex-end'}>
