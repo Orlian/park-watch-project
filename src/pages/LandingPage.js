@@ -162,7 +162,7 @@ const LandingPage = () => {
 
         if (freeNormalSpace >= 5) {
             setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
-        } else if (freeNormalSpace < 5 && count >= 3) {
+        } else if (freeNormalSpace < 5 && freeNormalSpace >= 3) {
             setFreeSpacesText({text: 'muutamia paikkoja vapaana', style: '#e7d213'});
         } else if (freeNormalSpace === 2) {
             setFreeSpacesText({text: 'kaksi paikkaa vapaana', style: '#e7d213'});
