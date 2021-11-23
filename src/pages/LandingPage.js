@@ -88,7 +88,7 @@ const LandingPage = () => {
   const [freeInvaSpaces, setFreeInvaSpaces] = useState(0);
   const [invaSpacesText, setInvaSpacesText] = useState({});
   const [screenWidth, setScreenWidth] = useState('100%');
-  const [freeNormalSpace, setFreeNormalSpaces] = useState(0);
+  const [freeNormalSpaces, setFreeNormalSpaces] = useState(0);
 
   useEffect(() => {
     const width = window.innerWidth;
@@ -110,7 +110,6 @@ const LandingPage = () => {
   // const loadData = true;
 
   useEffect(() => {
-
     asyncFetch();
 
     if (localStorage.getItem('visitedBefore')) {
@@ -137,14 +136,35 @@ const LandingPage = () => {
     }
   }, [parkingState.ID27, parkingState.ID20]);
 
+  // checks free spaces from parkingState object
+  useEffect(() => {
+    let freeTotalCount = 0;
+    for(const [, value] of Object.entries(parkingState)) {
+      if(!value) freeTotalCount++;
+    }
+    const freeNormalCount = freeTotalCount - freeInvaSpaces;
+    console.log({'freeTotalCount': freeTotalCount, 'freeNormalCount': freeNormalCount});
+    console.log('parkingState entries', freeTotalCount);
+    if (freeNormalCount >= 5) {
+      setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
+    } else if (freeNormalCount >= 3) {
+      setFreeSpacesText({text: 'muutamia paikkoja vapaana', style: '#e7d213'});
+    } else if (freeNormalCount === 2) {
+      setFreeSpacesText({text: 'kaksi paikkaa vapaana', style: '#e7d213'});
+    } else if (freeNormalCount === 1) {
+      setFreeSpacesText({text: 'yksi paikka vapaana', style: '#e7d213'});
+    } else {
+      setFreeSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
+    }
+    setTotalFreeSpaces(freeTotalCount);
+    setFreeNormalSpaces(freeNormalCount);
+
+  },[freeInvaSpaces, parkingState]);
+
   useEffect(() => {
 
-  }, [freeNormalSpace, totalFreeSpaces, freeInvaSpaces, freeSpacesText, parkingState]);
-
-  useEffect(() => {
-
-    const timerInterval = setInterval(async () => {
-      await asyncFetch();
+    const timerInterval = setInterval(() => {
+      asyncFetch();
     }, 5000);
 
     return () => clearInterval(timerInterval);
@@ -153,39 +173,21 @@ const LandingPage = () => {
   const asyncFetch = async () => {
     let data = {};
 
-    const response = await fetch('/data/jsondata.json');
-    const responseData = await response.json();
-    data = responseData.response;
-    const totalResponse = await fetch('/data/jsonDataTotal.json');
-    const totalResponseData = await totalResponse.json();
-    const count = parseInt(totalResponseData.response.free) - freeInvaSpaces;
-    setFreeNormalSpaces(count);
-    setTotalFreeSpaces(parseInt(totalResponseData.response.free));
-    console.log('freeNormalSpaces', freeNormalSpace);
-    console.log('totalFreeSpaces', totalFreeSpaces);
-
-    if (freeNormalSpace >= 5) {
-      setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
-    } else if (freeNormalSpace >= 3) {
-      setFreeSpacesText({text: 'muutamia paikkoja vapaana', style: '#e7d213'});
-    } else if (freeNormalSpace === 2) {
-      setFreeSpacesText({text: 'kaksi paikkaa vapaana', style: '#e7d213'});
-    } else if (freeNormalSpace === 1) {
-      setFreeSpacesText({text: 'yksi paikka vapaana', style: '#e7d213 '});
-    } else {
-      setFreeSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
+    try {
+      const response = await fetch('/data/jsondata.json');
+      const responseData = await response.json();
+      data = responseData.response;
+      const obj = Object.values(data?.body);
+      const newObj = {};
+      obj.map(x => {
+            newObj[`ID${x.id}`] = !!parseInt(x.status);
+          },
+      );
+      setParkingState(newObj);
+    } catch (err) {
+      // Tänne fetchaus virheet
+      console.log('asyncFetch error', err.message);
     }
-
-    const obj = Object.values(data?.body);
-    const newObj = {};
-
-    obj.map(x => {
-          newObj[`ID${x.id}`] = parseInt(x.status) ? true : false;
-        },
-    );
-
-    setParkingState(newObj);
-
   };
 
   const handleOpen = () => setOpen(true);
@@ -259,13 +261,13 @@ const LandingPage = () => {
                   <Typography variant="h5"
                               fontWeight={'bold'}>Parkkipaikat</Typography>
                   <Typography variant="h7"
-                  >{freeSpacesText?.text}</Typography>
+                  >{freeSpacesText.text}</Typography>
                 </Box>
               </Stack>
 
               <Box display={'flex'} alignItems={'flex-end'}>
                 <Typography variant="h2"
-                            color={freeSpacesText?.style}>{freeNormalSpace}</Typography>
+                            color={freeSpacesText.style}>{freeNormalSpaces}</Typography>
               </Box>
             </Stack>
             <Divider/>
