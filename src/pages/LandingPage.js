@@ -10,46 +10,22 @@ import {
   ThemeProvider,
   Typography,
   Divider,
-  Paper, Card,
+  Card,
 } from '@mui/material';
 
-import {makeStyles} from '@mui/styles';
-
-import CheckIcon from '@mui/icons-material/Check';
-import CircleIcon from '@mui/icons-material/Circle';
 import SvgParkMap from '../components/SvgParkMap/SvgParkMap';
 import Clock from 'react-digital-clock';
 import AccessibleIcon from '@mui/icons-material/Accessible';
 import logo from './ParkkiPate-logo-retina-header.jpeg';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import './LandingPage.css';
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
-const useStyles = makeStyles({
-  box: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '80vw',
-    backgroundColor: 'white',
-    border: '2px solid #000',
-    boxShadow: 24,
-    borderRadius: '0.5rem',
-    p: 4,
-  },
-  card: {
-    borderRadius: '0 0 50px 50px !important',
-    overflow: 'hidden',
-
-  },
-
-});
 
 const LandingPage = () => {
-  const classes = useStyles();
   const defaultState = {
     ID1: false,
     ID2: false,
@@ -87,14 +63,14 @@ const LandingPage = () => {
   const [freeSpacesText, setFreeSpacesText] = useState({});
   const [freeInvaSpaces, setFreeInvaSpaces] = useState(0);
   const [invaSpacesText, setInvaSpacesText] = useState({});
-  const [screenWidth, setScreenWidth] = useState('100%');
+  const [screenWidth, setScreenWidth] = useState(true);
   const [freeNormalSpace, setFreeNormalSpaces] = useState(0);
 
   useEffect(() => {
     const width = window.innerWidth;
 
     if (width > 600) {
-      setScreenWidth('80%');
+      setScreenWidth(false);
     }
   }, []);
   /*
@@ -115,7 +91,8 @@ const LandingPage = () => {
 
     if (localStorage.getItem('visitedBefore')) {
       return true;
-    } else {
+    }
+    else {
       localStorage.setItem('visitedBefore', true);
       handleOpen();
       return true;
@@ -130,16 +107,23 @@ const LandingPage = () => {
 
     if (count === 2) {
       setInvaSpacesText({text: 'kaksi paikkaa vapaana', style: 'green'});
-    } else if (count === 1) {
+    }
+    else if (count === 1) {
       setInvaSpacesText({text: 'yksi paikka vapaana', style: '#e7d213'});
-    } else {
+    }
+    else {
       setInvaSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
     }
   }, [parkingState.ID27, parkingState.ID20]);
 
   useEffect(() => {
 
-  }, [freeNormalSpace, totalFreeSpaces, freeInvaSpaces, freeSpacesText, parkingState]);
+  }, [
+    freeNormalSpace,
+    totalFreeSpaces,
+    freeInvaSpaces,
+    freeSpacesText,
+    parkingState]);
 
   useEffect(() => {
 
@@ -166,13 +150,17 @@ const LandingPage = () => {
 
     if (freeNormalSpace >= 5) {
       setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
-    } else if (freeNormalSpace >= 3) {
+    }
+    else if (freeNormalSpace >= 3) {
       setFreeSpacesText({text: 'muutamia paikkoja vapaana', style: '#e7d213'});
-    } else if (freeNormalSpace === 2) {
+    }
+    else if (freeNormalSpace === 2) {
       setFreeSpacesText({text: 'kaksi paikkaa vapaana', style: '#e7d213'});
-    } else if (freeNormalSpace === 1) {
+    }
+    else if (freeNormalSpace === 1) {
       setFreeSpacesText({text: 'yksi paikka vapaana', style: '#e7d213 '});
-    } else {
+    }
+    else {
       setFreeSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
     }
 
@@ -192,113 +180,117 @@ const LandingPage = () => {
   const handleClose = () => setOpen(false);
 
   return (
-      <ThemeProvider theme={theme}>
-        <Modal
-            open={open}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-          <Box className={classes.box}>
+      <Container disableGutters={screenWidth} maxWidth={'md'} style={{display:'flex', alignItems: 'center', width:'100vw', height: '100vh'}}>
+        <ThemeProvider theme={theme}>
+          <Modal
+              open={open}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+          >
+            <Box id={'modalBox'}>
+              <Grid container direction={'row'} textAlign={'center'}>
+                <Grid item xs={12} paddingTop={'1rem'}>
+                  <img src={'/alarm.png'} width={'50%'} alt={'Picture of a alarm'}/>
+                </Grid>
+                <Grid item xs={12} style={{paddingBottom: '1rem'}}>
+                  <Typography id="modal-modal-description"
+                              sx={{mt: 2, padding: '1rem'}}
+                              fontWeight={'bold'}>
 
-            <Grid container direction={'column'} textAlign={'center'}>
-              <Grid item>
-                <img src={'/alarm.png'} alt={'Picture of a alarm'}
-                     width={'50%'}/>
+                    Parkkipaikka on vain koulun opettajille!!!! ParkkiPate Oy
+                    valvoo parkkipaikkaa ja
+                    sakottaa autoja joilla ei ole lupalappua.
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <img src={logo} alt={'Parkkipate logo'} width={'50%'}/>
+                </Grid>
+                <Grid item marginTop={'1rem'} xs={12}>
+                  <Button variant="contained" fullWidth={true}
+                          onClick={handleClose}>
+                    Jatka
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item style={{paddingBottom: '1rem'}}>
-                <Typography id="modal-modal-description"
-                            sx={{mt: 2, padding: '1rem'}}
-                            fontWeight={'bold'}>
-
-                  Parkkipaikka on vain koulun opettajille!!!! ParkkiPate Oy
-                  valvoo parkkipaikkaa ja
-                  sakottaa autoja joilla ei ole lupalappua.
-                </Typography>
-              </Grid>
-              <Grid item>
-                <img src={logo} alt={'Parkkipate logo'} width={'50%'}/>
-              </Grid>
-              <Grid item marginTop={'1rem'}>
-                <Button variant="contained" fullWidth={true}
-                        onClick={handleClose}>
-                  Jatka
-                </Button>
-              </Grid>
-
+            </Box>
+          </Modal>
+          <Grid container>
+            <Grid item sm={6}>
+              <Card elevation={5} id={'svgParkMapCard'}>
+                <SvgParkMap  object={parkingState}/>
+              </Card>
             </Grid>
+            <Grid item sm={6}>
+              <Grid container id={'parkContentGridContainer'}>
+                <Grid item xs={12} id={'parkContentGridItem'}>
+                  <Stack direction={'row'} justifyContent={'space-between'}
+                         alignItems={'self-end'} margin={'0 1rem'}>
+                    <Typography variant="h7">Vapaat paikat
+                      ({totalFreeSpaces})</Typography>
+                    <Box display={'flex'} alignItems={'self-end'}
+                         width={'6rem'} justifyContent={'end'}>
+                      <AccessTimeIcon/>
+                      <Typography variant={'h7'}>{<Clock
+                          hour12={false}/>}</Typography>
+                    </Box>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} margin={'1rem 0 0 0'}>
+                  <Stack direction={'row'} justifyContent={'space-between'}
+                         textAlign={'left'} margin={'0 1rem 1rem 1rem'}>
+                    <Stack direction={'row'} alignItems={'flex-end'}>
+                      <LocalParkingIcon sx={{
+                        fontSize: '47.875px',
+                        backgroundColor: '#2962ff',
+                        color: 'white',
+                        marginRight: '0.5rem',
+                      }}/>
+                      <Box>
+                        <Typography variant="h5"
+                                    fontWeight={'bold'} id='invaSpacesTitle'>Parkkipaikat</Typography>
+                        <Typography variant="h7" id='freeSpacesText'
+                        >{freeSpacesText?.text}</Typography>
+                      </Box>
+                    </Stack>
 
-          </Box>
-        </Modal>
-        <Card elevation={5} className={classes.card}>
-          <SvgParkMap object={parkingState}/>
-        </Card>
-        <Grid container margin={'1rem 0 2rem 0'}>
-          <Grid item xs={12} margin={'1rem 0 0 0'}>
-            <Stack direction={'row'} justifyContent={'space-between'}
-                   alignItems={'self-end'} margin={'0 1rem'}>
-              <Typography variant="h7">Vapaat paikat
-                ({totalFreeSpaces})</Typography>
-              <Box display={'flex'} alignItems={'self-end'} width={'6rem'}>
-                <AccessTimeIcon/>
-                <Typography variant={'h7'}>{<Clock
-                    hour12={false}/>}</Typography>
-              </Box>
-            </Stack>
+                    <Box display={'flex'} alignItems={'flex-end'} >
+                      <Typography variant="h2"
+                                  color={freeSpacesText?.style} id='freeSpacesNumber'>{freeNormalSpace}</Typography>
+                    </Box>
+                  </Stack>
+                  <Divider variant={screenWidth ? 'fullWidth' : 'middle'}/>
+                </Grid>
+                <Grid item xs={12} margin={'1rem 0'}>
+                  <Stack direction={'row'} justifyContent={'space-between'}
+                         textAlign={'left'} margin={'0 1rem 1rem 1rem'}>
+                    <Stack direction={'row'} alignItems={'flex-end'}>
+                      <AccessibleIcon sx={{
+                        fontSize: '47.875px',
+                        backgroundColor: '#2962ff',
+                        color: 'white',
+                        marginRight: '0.5rem',
+                      }}/>
+                      <Box>
+                        <Typography variant="h5"
+                                    fontWeight={'bold'} id='invaSpacesTitle'>Invapaikat</Typography>
+                        <Typography variant="h7" id='invaSpacesText'
+                        >{invaSpacesText?.text}</Typography>
+                      </Box>
+                    </Stack>
+                    <Box display={'flex'} alignItems={'flex-end'} >
+                      <Typography variant="h2"
+                                  color={invaSpacesText?.style} id='invaSpacesNumber'>{freeInvaSpaces}</Typography>
+                    </Box>
+                  </Stack>
+                  <Divider variant={screenWidth ? 'fullWidth' : 'middle'}/>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12} margin={'1rem 0 0 0'}>
-            <Stack direction={'row'} justifyContent={'space-between'}
-                   textAlign={'left'} margin={'0 1rem 1rem 1rem'}>
-              <Stack direction={'row'} alignItems={'flex-end'}>
-                <LocalParkingIcon sx={{
-                  fontSize: '47.875px',
-                  backgroundColor: '#2962ff',
-                  color: 'white',
-                  marginRight: '0.5rem',
-                }}/>
-                <Box>
-                  <Typography variant="h5"
-                              fontWeight={'bold'}>Parkkipaikat</Typography>
-                  <Typography variant="h7"
-                  >{freeSpacesText?.text}</Typography>
-                </Box>
-              </Stack>
-
-              <Box display={'flex'} alignItems={'flex-end'}>
-                <Typography variant="h2"
-                            color={freeSpacesText?.style}>{freeNormalSpace}</Typography>
-              </Box>
-            </Stack>
-            <Divider/>
-          </Grid>
-          <Grid item xs={12} margin={'1rem 0'}>
-            <Stack direction={'row'} justifyContent={'space-between'}
-                   textAlign={'left'} margin={'0 1rem 1rem 1rem'}>
-              <Stack direction={'row'} alignItems={'flex-end'}>
-                <AccessibleIcon sx={{
-                  fontSize: '47.875px',
-                  backgroundColor: '#2962ff',
-                  color: 'white',
-                  marginRight: '0.5rem',
-                }}/>
-                <Box>
-                  <Typography variant="h5"
-                              fontWeight={'bold'}>Invapaikat</Typography>
-                  <Typography variant="h7"
-                  >{invaSpacesText?.text}</Typography>
-                </Box>
-              </Stack>
-              <Box display={'flex'} alignItems={'flex-end'}>
-                <Typography variant="h2"
-                            color={invaSpacesText?.style}>{freeInvaSpaces}</Typography>
-              </Box>
-            </Stack>
-            <Divider/>
-          </Grid>
-
-        </Grid>
-
-      </ThemeProvider>
-  );
+        </ThemeProvider>
+      </Container>
+  )
+      ;
 };
 
 export default LandingPage;
