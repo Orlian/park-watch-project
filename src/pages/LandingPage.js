@@ -69,7 +69,7 @@ const LandingPage = () => {
   useEffect(() => {
     const width = window.innerWidth;
 
-    if (width > 600) {
+    if (width > 599) {
       setScreenWidth(false);
     }
   }, []);
@@ -173,7 +173,7 @@ const LandingPage = () => {
   const handleClose = () => setOpen(false);
 
   return (
-      <Container disableGutters={screenWidth} maxWidth={'md'} style={{display:'flex', alignItems: 'center', width:'100vw', height: '100vh'}}>
+      <Container id={'container'} disableGutters={screenWidth} maxWidth={'md'} style={{display:'flex', width:'100vw', height: '100vh'}}>
         <ThemeProvider theme={theme}>
           <Modal
               open={open}
