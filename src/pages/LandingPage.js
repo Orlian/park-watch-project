@@ -19,7 +19,7 @@ import AccessibleIcon from '@mui/icons-material/Accessible';
 import logo from './ParkkiPate-logo-retina-header.jpeg';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import {isSunsetTrue, SunsetChecker, SunsetTrue} from "../components/SunsetChecker/SunsetChecker";
+import {isSunsetTrue, SunsetChecker} from "../components/SunsetChecker/SunsetChecker";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
