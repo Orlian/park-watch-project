@@ -19,7 +19,7 @@ import AccessibleIcon from '@mui/icons-material/Accessible';
 import logo from './ParkkiPate-logo-retina-header.jpeg';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import {SunsetChecker, SunsetTrue} from "../components/SunsetChecker/SunsetChecker";
+import {isSunsetTrue, SunsetChecker, SunsetTrue} from "../components/SunsetChecker/SunsetChecker";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -171,7 +171,7 @@ const LandingPage = () => {
 
     return (
         <Container disableGutters={screenWidth} maxWidth={'md'}
-                   style={{display: 'flex', alignItems: 'center', width: '100vw', height: '100vh'}}>
+                   style={{display: 'flex', alignItems: 'center', width: '100vw', height: '100vh'}} id={'container'}>
             <ThemeProvider theme={theme}>
                 <Modal
                     open={open}
@@ -205,7 +205,7 @@ const LandingPage = () => {
                         </Grid>
                     </Box>
                 </Modal>
-                {<SunsetChecker/> ? <SunsetChecker/> :
+                {isSunsetTrue() ? <SunsetChecker/> :
                     <>
                         <Grid container>
                             <Grid item sm={6}>

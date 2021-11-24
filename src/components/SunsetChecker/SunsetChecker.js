@@ -23,6 +23,11 @@ const useStyles = makeStyles({
 
 });
 
+let sunsetTrue = false;
+
+const isSunsetTrue = () => {
+    if (sunsetTrue) return true
+}
 
 
 
@@ -38,6 +43,10 @@ const SunsetChecker = () => {
     useEffect(()=> {
         const timerInterval = setInterval(() => {
             setTimeNow(Date.now());
+
+            if(sunset - timeNow >= 0){
+                sunsetTrue = true;
+            }
         }, 5000);
 
         return () => clearInterval(timerInterval);
@@ -60,8 +69,7 @@ const SunsetChecker = () => {
 
     return (
         <>
-            {sunset - sunset >= 0 &&
-            <Grid>
+            <Grid container justifyContent={"center"}>
                 <Grid item className={classes.svg}>
                     <SunsetSvg/>
                 </Grid>
@@ -80,10 +88,9 @@ const SunsetChecker = () => {
 
 
             </Grid>
-            }
         </>
     )
 }
 
 
-export {SunsetChecker};
+export {SunsetChecker, isSunsetTrue};
