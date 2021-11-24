@@ -21,6 +21,8 @@ import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import './LandingPage.css';
 import {isSunsetTrue, SunsetChecker} from "../components/SunsetChecker/SunsetChecker";
+import BeenHereBeforeModal from "../components/BeenHereBeforeModal/BeenHereBeforeModal";
+import defaultState from "./defaultState";
 
 
 let theme = createTheme();
@@ -28,39 +30,9 @@ theme = responsiveFontSizes(theme);
 
 
 const LandingPage = () => {
-    const defaultState = {
-        ID1: false,
-        ID2: false,
-        ID3: false,
-        ID4: false,
-        ID5: false,
-        ID6: false,
-        ID7: false,
-        ID8: false,
-        ID9: false,
-        ID10: false,
-        ID11: false,
-        ID12: false,
-        ID13: false,
-        // ID14: true, principals parking spot: always reserved
-        ID15: false,
-        ID16: false,
-        ID17: false,
-        ID18: false,
-        ID19: false,
-        ID20: false,
-        ID21: false,
-        ID22: false,
-        ID23: false,
-        ID24: false,
-        ID25: false,
-        ID26: false,
-        ID27: false,
 
-    };
 
     const [parkingState, setParkingState] = useState(defaultState);
-    const [open, setOpen] = useState(false);
     const [totalFreeSpaces, setTotalFreeSpaces] = useState(0);
     const [freeSpacesText, setFreeSpacesText] = useState({});
     const [freeInvaSpaces, setFreeInvaSpaces] = useState(0);
@@ -69,35 +41,16 @@ const LandingPage = () => {
     const [freeNormalSpaces, setFreeNormalSpaces] = useState(0);
 
     useEffect(() => {
+        asyncFetch();
         const width = window.innerWidth;
 
         if (width > 599) {
             setScreenWidth(false);
         }
     }, []);
-    /*
-   I
-   I
-   I
-   I
-   i
-   I
-   I
-     */
-    // set this variable true/false depending if you want to use fetch and real data.
-    // const loadData = true;
 
-    useEffect(() => {
-        asyncFetch();
 
-        if (localStorage.getItem('visitedBefore')) {
-            return true;
-        } else {
-            localStorage.setItem('visitedBefore', true);
-            handleOpen();
-            return true;
-        }
-    }, []);
+
 
     // Check if inva spaces are occupied and show them separately
     useEffect(() => {
@@ -168,45 +121,13 @@ const LandingPage = () => {
         }
     };
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+
 
     return (
         <Container id={'container'} disableGutters={screenWidth} maxWidth={'md'}
                    style={{display: 'flex', width: '100vw', height: '100vh'}}>
             <ThemeProvider theme={theme}>
-                <Modal
-                    open={open}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box id={'modalBox'}>
-                        <Grid container direction={'row'} textAlign={'center'}>
-                            <Grid item xs={12} paddingTop={'1rem'}>
-                                <img src={'/alarm.png'} width={'50%'} alt={'Picture of a alarm'}/>
-                            </Grid>
-                            <Grid item xs={12} style={{paddingBottom: '1rem'}}>
-                                <Typography id="modal-modal-description"
-                                            sx={{mt: 2, padding: '1rem'}}
-                                            fontWeight={'bold'}>
-
-                                    Parkkipaikka on vain koulun opettajille!!!! ParkkiPate Oy
-                                    valvoo parkkipaikkaa ja
-                                    sakottaa autoja joilla ei ole lupalappua.
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <img src={logo} alt={'Parkkipate logo'} width={'50%'}/>
-                            </Grid>
-                            <Grid item marginTop={'1rem'} xs={12}>
-                                <Button variant="contained" fullWidth={true}
-                                        onClick={handleClose}>
-                                    Jatka
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Modal>
+                <BeenHereBeforeModal/>
                 {isSunsetTrue() ? <SunsetChecker/> :
                     <>
                         <Grid container>
