@@ -63,7 +63,7 @@ const LandingPage = () => {
   const [freeSpacesText, setFreeSpacesText] = useState({});
   const [freeInvaSpaces, setFreeInvaSpaces] = useState(0);
   const [invaSpacesText, setInvaSpacesText] = useState({});
-  const [screenWidth, setScreenWidth] = useState('100%');
+  const [screenWidth, setScreenWidth] = useState(true);
   const [freeNormalSpaces, setFreeNormalSpaces] = useState(0);
 
   useEffect(() => {
