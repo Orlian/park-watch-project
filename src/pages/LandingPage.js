@@ -97,17 +97,6 @@ const LandingPage = () => {
       setScreenWidth('80%');
     }
   }, []);
-  /*
- I
- I
- I
- I
- i
- I
- I
-   */
-  // set this variable true/false depending if you want to use fetch and real data.
-  // const loadData = true;
 
   useEffect(() => {
     asyncFetch();
@@ -143,8 +132,6 @@ const LandingPage = () => {
       if(!value) freeTotalCount++;
     }
     const freeNormalCount = freeTotalCount - freeInvaSpaces;
-    console.log({'freeTotalCount': freeTotalCount, 'freeNormalCount': freeNormalCount});
-    console.log('parkingState entries', freeTotalCount);
     if (freeNormalCount >= 5) {
       setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
     } else if (freeNormalCount >= 3) {
