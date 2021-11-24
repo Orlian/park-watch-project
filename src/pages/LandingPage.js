@@ -243,6 +243,7 @@ const LandingPage = () => {
                                                 <Box>
                                                     <Typography variant="h5"
                                                                 fontWeight={'bold'}
+                                                                fontFamily={'IBM Plex Mono'}
                                                                 id='invaSpacesTitle'>Parkkipaikat</Typography>
                                                     <Typography variant="h7" id='freeSpacesText'
                                                     >{freeSpacesText?.text}</Typography>
@@ -270,6 +271,7 @@ const LandingPage = () => {
                                                 <Box>
                                                     <Typography variant="h5"
                                                                 fontWeight={'bold'}
+                                                                fontFamily={'IBM Plex Mono'}
                                                                 id='invaSpacesTitle'>Invapaikat</Typography>
                                                     <Typography variant="h7" id='invaSpacesText'
                                                     >{invaSpacesText?.text}</Typography>
