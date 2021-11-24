@@ -20,6 +20,11 @@ function App() {
                 main: '#ff0000'
             }
         },
+        h5: {
+            typography: {
+                fontFamily: 'IBM Plex Mono'
+            }
+        }
 
 
     });
