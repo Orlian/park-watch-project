@@ -15,6 +15,7 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",
     "react": "^17.0.2",
+    "react-content-loader": "^6.0.3",
     "react-digital-clock": "^0.1.2",
     "react-dom": "^17.0.2",
     "react-inlinesvg": "^2.3.0",

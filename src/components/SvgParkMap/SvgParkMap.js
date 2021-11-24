@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 
 
 // import './parkingLotStyles.css'
@@ -170,8 +170,8 @@ const SvgParkMap = ({object}) => {
                         <g id="Vector 6" filter="url(#filter0_d_30_6)">
                             <path d="M4.5 334.5V196.5L1624.5 22.5V157.5L4.5 334.5Z" fill="#6F6F6F"/>
                         </g>
-                        <path id="Line 1" d="M9.00001 261.5L1618 85" stroke="white" stroke-width="9"
-                              stroke-linecap="round" stroke-dasharray="30 50"/>
+                        <path id="Line 1" d="M9.00001 261.5L1618 85" stroke="white" strokeWidth="9"
+                              strokeLinecap="round" strokeDasharray="30 50"/>
                     </g>
                     <rect id="Rectangle 10_2" x="165.842" y="340.454" width="13" height="82"
                           transform="rotate(-6.20151 165.842 340.454)" fill="white"/>
@@ -184,8 +184,8 @@ const SvgParkMap = ({object}) => {
                 </g>
                 <defs>
                     <filter id="filter0_d_30_6" x="0.5" y="22.5" width="1628" height="320" filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB">
-                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            colorInterpolationFilters="sRGB">
+                        <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                         <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
                                        result="hardAlpha"/>
                         <feOffset dy="4"/>

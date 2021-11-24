@@ -19,6 +19,7 @@ import AccessibleIcon from '@mui/icons-material/Accessible';
 import logo from './ParkkiPate-logo-retina-header.jpeg';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import Loader from '../components/Loader/Loader';
 import './LandingPage.css';
 import {isSunsetTrue, SunsetChecker} from "../components/SunsetChecker/SunsetChecker";
 import BeenHereBeforeModal from "../components/BeenHereBeforeModal/BeenHereBeforeModal";
@@ -28,27 +29,26 @@ import defaultState from "./defaultState";
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
-
 const LandingPage = () => {
 
 
-    const [parkingState, setParkingState] = useState(defaultState);
-    const [totalFreeSpaces, setTotalFreeSpaces] = useState(0);
-    const [freeSpacesText, setFreeSpacesText] = useState({});
-    const [freeInvaSpaces, setFreeInvaSpaces] = useState(0);
-    const [invaSpacesText, setInvaSpacesText] = useState({});
-    const [screenWidth, setScreenWidth] = useState(true);
-    const [freeNormalSpaces, setFreeNormalSpaces] = useState(0);
+  const [parkingState, setParkingState] = useState(defaultState);
+  const [totalFreeSpaces, setTotalFreeSpaces] = useState(0);
+  const [freeSpacesText, setFreeSpacesText] = useState({});
+  const [freeInvaSpaces, setFreeInvaSpaces] = useState(0);
+  const [invaSpacesText, setInvaSpacesText] = useState({});
+  const [screenWidth, setScreenWidth] = useState(true);
+  const [freeNormalSpaces, setFreeNormalSpaces] = useState(0);
+  const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         asyncFetch();
         const width = window.innerWidth;
 
-        if (width > 599) {
-            setScreenWidth(false);
-        }
-    }, []);
-
+    if (width > 599) {
+      setScreenWidth(false);
+    }
+  }, []);
 
 
 
@@ -58,39 +58,38 @@ const LandingPage = () => {
         const count = list.filter(item => !item).length;
         setFreeInvaSpaces(count);
 
-        if (count === 2) {
-            setInvaSpacesText({text: 'kaksi paikkaa vapaana', style: 'green'});
-        } else if (count === 1) {
-            setInvaSpacesText({text: 'yksi paikka vapaana', style: '#e7d213'});
-        } else {
-            setInvaSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
-        }
-    }, [parkingState.ID27, parkingState.ID20]);
+    if (count === 2) {
+      setInvaSpacesText({text: 'kaksi paikkaa vapaana', style: 'green'});
+    } else if (count === 1) {
+      setInvaSpacesText({text: 'yksi paikka vapaana', style: '#e7d213'});
+    } else {
+      setInvaSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
+    }
+  }, [parkingState.ID27, parkingState.ID20]);
 
-    // checks free spaces from parkingState object
-    useEffect(() => {
-        let freeTotalCount = 0;
-        for (const [, value] of Object.entries(parkingState)) {
-            if (!value) freeTotalCount++;
-        }
-        const freeNormalCount = freeTotalCount - freeInvaSpaces;
-        console.log({'freeTotalCount': freeTotalCount, 'freeNormalCount': freeNormalCount});
-        console.log('parkingState entries', freeTotalCount);
-        if (freeNormalCount >= 5) {
-            setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
-        } else if (freeNormalCount >= 3) {
-            setFreeSpacesText({text: 'muutamia paikkoja vapaana', style: '#e7d213'});
-        } else if (freeNormalCount === 2) {
-            setFreeSpacesText({text: 'kaksi paikkaa vapaana', style: '#e7d213'});
-        } else if (freeNormalCount === 1) {
-            setFreeSpacesText({text: 'yksi paikka vapaana', style: '#e7d213'});
-        } else {
-            setFreeSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
-        }
-        setTotalFreeSpaces(freeTotalCount);
-        setFreeNormalSpaces(freeNormalCount);
+  // checks free spaces from parkingState object
+  useEffect(() => {
+    let freeTotalCount = 0;
+    for (const [, value] of Object.entries(parkingState)) {
+      if (!value) freeTotalCount++;
+    }
+    const freeNormalCount = freeTotalCount - freeInvaSpaces;
+    if (freeNormalCount >= 5) {
+      setFreeSpacesText({text: 'useita paikkoja vapaana', style: 'green'});
+    } else if (freeNormalCount >= 3) {
+      setFreeSpacesText({text: 'muutamia paikkoja vapaana', style: '#e7d213'});
+    } else if (freeNormalCount === 2) {
+      setFreeSpacesText({text: 'kaksi paikkaa vapaana', style: '#e7d213'});
+    } else if (freeNormalCount === 1) {
+      setFreeSpacesText({text: 'yksi paikka vapaana', style: '#e7d213'});
+    } else {
+      setFreeSpacesText({text: 'ei yhtään paikkaa vapaana', style: 'red'});
+    }
+    setTotalFreeSpaces(freeTotalCount);
+    setFreeNormalSpaces(freeNormalCount);
+    //setLoading(false);
 
-    }, [freeInvaSpaces, parkingState]);
+  }, [freeInvaSpaces, parkingState]);
 
     useEffect(() => {
 
