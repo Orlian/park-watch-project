@@ -22,6 +22,9 @@
 #freeSpacesNumber{
     line-height: 2.8rem;
 }
+#invaSpacesTitle{
+    font-family: 'IBM Plex Mono !important';
+}
 #invaSpacesNumber{
     line-height: 2.8rem;
 }
