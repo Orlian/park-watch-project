@@ -20,13 +20,6 @@ function App() {
                 main: '#ff0000'
             }
         },
-        root: {
-
-            typography: {fontFamily: ["IBM Plex Mono"].join(",")},
-        },
-        body: {
-            fontFamily: "IBM Plex Mono"
-        }
 
 
     });

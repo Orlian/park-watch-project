@@ -17,8 +17,12 @@ const useStyles = makeStyles({
         paddingBottom: '5rem',
         paddingTop: '5rem'
     },
+
+
     typography: {
-        fontFamily: 'IBM Plex Mono !important'
+        root: {
+            fontFamily: 'IBM Plex Mono !important',
+        }
     }
 
 });
@@ -30,7 +34,6 @@ const isSunsetTrue = () => {
 }
 
 
-
 const SunsetChecker = () => {
     const classes = useStyles();
 
@@ -39,19 +42,17 @@ const SunsetChecker = () => {
     const [timeNow, setTimeNow] = useState();
 
 
-
-    useEffect(()=> {
+    useEffect(() => {
         const timerInterval = setInterval(() => {
             setTimeNow(Date.now());
 
-            if(sunset - timeNow >= 0){
+            if (sunset - timeNow >= 0) {
                 sunsetTrue = true;
             }
         }, 5000);
 
         return () => clearInterval(timerInterval);
-    },[])
-
+    }, [])
 
 
     const fetchSunset = async () => {
@@ -80,7 +81,8 @@ const SunsetChecker = () => {
                         <Typography variant={'h6'}>On pimeää...</Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant={'h6'}>Nähdään taas huomenna kello {<Moment unix>{sunrise}</Moment>}. </Typography>
+                        <Typography variant={'h6'}>Nähdään taas huomenna kello {<Moment
+                            unix>{sunrise}</Moment>}. </Typography>
                     </Grid>
 
 
