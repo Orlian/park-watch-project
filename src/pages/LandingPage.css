@@ -22,8 +22,12 @@
 #freeSpacesNumber{
     line-height: 2.8rem;
 }
+
 #invaSpacesNumber{
     line-height: 2.8rem;
+}
+#container{
+    align-items: center;
 }
 @media screen and (min-width: 600px) {
     #modalBox{
@@ -31,6 +35,9 @@
     }
 }
 @media screen and (max-width: 599px) {
+    #container{
+        align-items: unset;
+    }
     #svgParkMapCard{
         width: 100vw;
         border-radius: 0 0 50px 50px;
